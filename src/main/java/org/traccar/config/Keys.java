@@ -1979,4 +1979,9 @@ public final class Keys {
             "broadcast.secondary",
             List.of(KeyType.CONFIG));
 
+      // 新增高德定位的配置键
+    public static final ConfigKey<String> GEOLOCATION_AMAP_KEY = new StringConfigKey(
+            "geolocation.amap.key",
+            List.of(KeyType.CONFIG));
+
 }
