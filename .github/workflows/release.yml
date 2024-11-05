@@ -37,7 +37,7 @@ jobs:
           sudo dpkg --add-architecture i386
           sudo apt-get update
           sudo apt-get install libgcc-s1:i386 libstdc++6:i386
-          sudo apt-get install innoextract makeself wine32 s3cmd
+          sudo apt-get install innoextract makeself wine32
       - name: Build installers
         working-directory: ./setup
         run: |
@@ -46,6 +46,12 @@ jobs:
           wget -q https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.4+7/OpenJDK21U-jdk_x64_linux_hotspot_21.0.4_7.tar.gz
           wget -q https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.4+7/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.4_7.tar.gz
           ./package.sh ${{ github.event.inputs.version }}
+      - name: Move installers to setup folder
+        run: |
+          mkdir -p ./setup/installers
+          mv ./setup/traccar-*.zip ./setup/installers/
       - name: Upload installers
-        working-directory: ./setup
-      
+        uses: actions/upload-artifact@v3
+        with:
+          name: traccar-installers
+          path: ./setup/installers/*.zip
