@@ -15,6 +15,10 @@
  */
 package org.traccar;
 
+// 其他导入保持不变
+import org.traccar.geolocation.AMapGeolocationProvider;  // 新增这一行
+
+// 其他代码保持不变
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsonp.JSONPModule;
@@ -242,7 +246,6 @@ public class MainModule extends AbstractModule {
         }
         return null;
     }
-
     @Singleton
     @Provides
     public static GeolocationProvider provideGeolocationProvider(Config config, Client client) {
@@ -253,12 +256,14 @@ public class MainModule extends AbstractModule {
             return switch (type) {
                 case "opencellid" -> new OpenCellIdGeolocationProvider(client, url, key);
                 case "unwired" -> new UnwiredGeolocationProvider(client, url, key);
+                case "amap" -> new AMapGeolocationProvider(config);  // 新增这一行
                 default -> new GoogleGeolocationProvider(client, key);
             };
         }
         return null;
     }
 
+// 其他代码保持不变
     @Singleton
     @Provides
     public static SpeedLimitProvider provideSpeedLimitProvider(Config config, Client client) {
